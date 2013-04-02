@@ -1,12 +1,13 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import sessionmaker, relationship, backref, scoped_session
 
-ENGINE = None
-Session = None
+
+engine = create_engine("sqlite:///ratings.db", echo = False)
+session = scoped_session(sessionmaker(bind = engine, autocommit = False, autoflush = False)) # scoped_session is being used to guarantee thread-safety for multiple users accessing this same app
 
 Base = declarative_base()
+Base.query = session.query_property()
 
 ### Class declarations go here
 class User (Base):
@@ -18,12 +19,12 @@ class User (Base):
 	age = Column(Integer, nullable = True)
 	zipcode = Column(String(15), nullable = True)
 
-	# don't need init function because we're inheriting from Base and not doing any calculations here anyway
-	def __init__(self, age, zipcode, email = None, password = None):
-		self.email = email
-		self.password = password
-		self.age = age
-		self.zipcode = zipcode
+	# don't use init function because SQLAlchemy will also use this when creating a new object after pulling a row from the DB
+	# def __init__(self, age, zipcode, email = None, password = None):
+	# 	self.email = email
+	# 	self.password = password
+	# 	self.age = age
+	# 	self.zipcode = zipcode
 
 class Movies (Base):
 	__tablename__ = "movies"
@@ -33,38 +34,34 @@ class Movies (Base):
 	released_at = Column(String(128), nullable = True)
 	imdb_url = Column(String(128), nullable = True)
 
-	def __init__(self, name, released_at = None, imdb_url = None):
-		self.name = name
-		self.released_at = released_at
-		self.imdb_url = imdb_url
+	rating = relationship("Ratings", backref=backref("movies", order_by=id)) # establishes a connection between Movies and Ratings class
+
+	# def __init__(self, name, released_at = None, imdb_url = None):
+	# 	self.name = name
+	# 	self.released_at = released_at
+	# 	self.imdb_url = imdb_url
   
 class Ratings (Base):
 	__tablename__ = "ratings"
 
 	id = Column(Integer, primary_key = True)
-	movie_id = Column(Integer)
-	user_id = Column(Integer)
+	movie_id = Column(Integer, ForeignKey('movies.id'))
+	user_id = Column(Integer, ForeignKey('users.id'))
 	rating = Column(Integer)
 
-	def __init__(self, movie_id, user_id, rating):
-		self.movie_id = movie_id
-		self.user_id = user_id
-		self.rating = rating
+	user = relationship("User", backref=backref("ratings", order_by=id)) # establishes connection to Users class based on foreign key to users.id indicated above
+
+
+	# def __init__(self, movie_id, user_id, rating):
+	# 	self.movie_id = movie_id
+	# 	self.user_id = user_id
+	# 	self.rating = rating
 
 ### End class declarations
-def connect():
-	global ENGINE
-	global Session
-
-	ENGINE = create_engine("sqlite:///ratings.db", echo = False)
-	Session = sessionmaker(bind = ENGINE)
-
-	return Session() # return an instance of one connection to the session
-
 
 def main():
     """In case we need this for something"""
     pass
 
-if __name__ == "__main__":
+if __name__ == "__main__": # calls main function if we were to run this model.py file directly (vs. importing into another Python file)
     main()
