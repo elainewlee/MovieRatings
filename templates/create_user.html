@@ -1,0 +1,17 @@
+<html>
+
+<body>
+
+<h1>Create New User</h1>
+
+<form name="create_user" action="{{ url_for('save_user') }}" method="post">
+	Email : <input type="text" name="email"><br />
+	Password: <input type="text" name="password"><br />
+	Age: <input type="text" name="age"><br />
+	Zipcode: <input type="text" name="zipcode"><br />
+	<input type="submit" value="Add new user">
+</form>
+
+</body>
+
+</html>

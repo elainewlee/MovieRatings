@@ -1,0 +1,7 @@
+To do:
+- view list of all users -- done, user_list.html
+- click on a user to view list of movies they've rated and the ratings -- done! judgment.py
+- create a new user w/ password
+	- validate form input: require at least email & password, require that age and zipcode be numbers (handle exceptions)
+- log in as a user (session)
+- while logged in & viewing movie info, add/edit movie logged in user's rating

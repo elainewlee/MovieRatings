@@ -2,6 +2,7 @@ import model
 import csv
 from datetime import datetime # this is to avoid having to call datetime.datetime.strptime below but that works too
 
+
 #for bulk uploading data from files
 
 def load_users(session):
