@@ -26,7 +26,7 @@ class User (Base):
 	# 	self.age = age
 	# 	self.zipcode = zipcode
 
-class Movies (Base):
+class Movie (Base):
 	__tablename__ = "movies"
 
 	id = Column(Integer, primary_key = True)
@@ -34,14 +34,14 @@ class Movies (Base):
 	released_at = Column(String(128), nullable = True)
 	imdb_url = Column(String(128), nullable = True)
 
-	rating = relationship("Ratings", backref=backref("movie", order_by=id)) # establishes a connection between Movies and Ratings class, use "movie" as the attribute name when referring to a Movies object from a Ratings object
+	rating = relationship("Rating", backref="movie") # establishes a connection between Movies and Ratings class, use "movie" as the attribute name when referring to a Movies object from a Ratings object
 
 	# def __init__(self, name, released_at = None, imdb_url = None):
 	# 	self.name = name
 	# 	self.released_at = released_at
 	# 	self.imdb_url = imdb_url
   
-class Ratings (Base):
+class Rating (Base):
 	__tablename__ = "ratings"
 
 	id = Column(Integer, primary_key = True)
@@ -49,7 +49,7 @@ class Ratings (Base):
 	user_id = Column(Integer, ForeignKey('users.id'))
 	rating = Column(Integer)
 
-	user = relationship("User", backref=backref("ratings", order_by=id)) # establishes connection to Users class based on foreign key to users.id indicated above, use "ratings" when referring to it from a User object
+	user = relationship("User", backref=backref("ratings", order_by=id)) # establishes connection to Users class based on foreign key to users.id indicated above, use "ratings" when referring to it from a User object. backref() is a function to use when wanting to pass additional parameter for SQL query to SQLAlchemy, here passing in paramter for query to use an "ORDER BY id" clause
 
 	# def __init__(self, movie_id, user_id, rating):
 	# 	self.movie_id = movie_id

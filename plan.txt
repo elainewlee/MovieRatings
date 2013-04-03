@@ -2,6 +2,40 @@ To do:
 - view list of all users -- done, user_list.html
 - click on a user to view list of movies they've rated and the ratings -- done! judgment.py
 - create a new user w/ password
-	- validate form input: require at least email & password, require that age and zipcode be numbers (handle exceptions)
+	- validate form input: require at least email & password -- done
 - log in as a user (session)
+	- create login.html page (form)
+	- write login app def:
+		#from login page:
+		-if user exists, go to index
+		elseif validation fails, go to login page
+		else, go to create_user page
+
+different ways to validate login data:
+method 1:
+	db = get row from db that checks for email and password
+	if missing email or mising password:
+			blah
+	elif db row doesnt exists:
+		blah
+	else
+		you were actually successfuly, log in
+method 2:
+	if missing email or missing password:
+		flash "you're missing an email or a password!"
+		return back to login.html page
+	else:
+		check db for a row that has that email and that password
+
+		if that row exists
+			return to index page (login was successful!)
+
+		else:
+			return back to login.html page (login was unsuccessful)
+
+
+
+
+
+
 - while logged in & viewing movie info, add/edit movie logged in user's rating

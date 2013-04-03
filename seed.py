@@ -29,7 +29,7 @@ def load_movies(session):
             row[1] = row[1].decode("latin-1") # change names from latin-1 encoding to unicode strings for sqlite3 db
             if row[2]: # to account for any movies that don't have a released_at listed, else get ValueError: time data '' does not match format '%d-%b-%Y'
                 row[2] = datetime.strptime(row[2], "%d-%b-%Y") # converts 01-Jan-1995 to 1995-01-01 00:00:00 to store in DB as a datetime format for the released_at column
-            new_movie = model.Movies(name=row[1], released_at=row[2], imdb_url=row[4])
+            new_movie = model.Movie(name=row[1], released_at=row[2], imdb_url=row[4])
             new_movie.id = row[0]
             session.add(new_movie)
             count += 1
@@ -44,7 +44,7 @@ def load_ratings(session):
         csvfile.seek(0)
         itemlist = csv.reader(csvfile, dialect)
         for row in itemlist:
-            new_rating = model.Ratings(movie_id=row[1], user_id=row[0], rating=row[2])
+            new_rating = model.Rating(movie_id=row[1], user_id=row[0], rating=row[2])
             session.add(new_rating)
             count += 1
             print "Rating #", count 

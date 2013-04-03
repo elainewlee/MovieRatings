@@ -1,6 +1,6 @@
-<html>
+{% extends "layout.html" %}
 
-<body>
+{% block body %}
 
 <h1>User's ratings</h1>
 
@@ -23,6 +23,4 @@ These are the ratings given by user ID {{ ratings[0].user_id }}
 
 </table>
 
-</body>
-
-</html>
+{% endblock %}

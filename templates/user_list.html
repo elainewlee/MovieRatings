@@ -1,6 +1,6 @@
-<html>
+{% extends "layout.html" %}
 
-<body>
+{% block body %}
 
 <h1>All users</h1>
 
@@ -8,8 +8,5 @@
 	<h2><a href = "ratings/{{ user.id }}"> User {{ user.id }}</a>, age {{ user.age }} has {{ user.ratings|length }} ratings</h2>
 {% endfor %}
 
+{% endblock %}
 
-
-</body>
-
-</html>
