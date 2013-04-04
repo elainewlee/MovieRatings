@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, redirect, request, session
+from flask import Flask, flash, render_template, redirect, request, session, url_for
 import model
 import urllib # used for URL encoding
 
@@ -52,13 +52,19 @@ def validate_login():
 	#form_email and form_password must both exist and match in db for row to be an object
 	row = model.session.query(model.User).filter_by(email=form_email, password=form_password).first()
 
-	if row: 
-		flash('Login successful.')
+	if row: 		
+		session['email'] = request.form['email']
+		flash('Logged in as: ' + session['email'])
 		return redirect("/")		
 	else:
 		flash('Please enter a valid email address and password.')
 		return redirect("/login") 
 
+@app.route("/logout")
+def logout():
+	session.pop('email', None)
+	flash('You have logged out.')
+	return redirect(url_for('index'))
 	
 if __name__ == "__main__":
 	app.run(debug = True)

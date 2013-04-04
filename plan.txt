@@ -3,20 +3,25 @@ To do:
 - click on a user to view list of movies they've rated and the ratings -- done! judgment.py
 - create a new user w/ password
 	- validate form input: require at least email & password -- done
-- log in as a user (session)
+	- check that email isn't already in database for an existing user
+- log in as a user (session) --done
 	- create login.html page (form)
 	- write login app def:
 		#from login page:
 		-if user exists, go to index
-		elseif validation fails, go to login page
-		else, go to create_user page
+		else if validation fails, go to login page
+
+
+- while logged in & viewing movie info, add/edit movie logged in user's rating
+
+
+________________________________
+Old Stuff
 
 different ways to validate login data:
 method 1:
 	db = get row from db that checks for email and password
-	if missing email or mising password:
-			blah
-	elif db row doesnt exists:
+	if missing email or missing password or db doesn't exist:
 		blah
 	else
 		you were actually successfuly, log in
@@ -34,8 +39,3 @@ method 2:
 			return back to login.html page (login was unsuccessful)
 
 
-
-
-
-
-- while logged in & viewing movie info, add/edit movie logged in user's rating

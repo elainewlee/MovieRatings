@@ -6,6 +6,15 @@
   <div class=flash>{{ message }}</div>
 {% endfor %}
 
+<!-- login link -->
+<div align=right><a href="{{ url_for('login') }}">Click here to login.</a></div>
+
+<!-- logout link -->
+<div align=right><a href="{{ url_for('logout') }}">Click here to logout.</a></div>
+
+<!-- Sign-in status-->
+<div align=right>You are currently signed in as: {{ session['email'] }}.</div>
+
 {% block body %}
 {% endblock %}
 
