@@ -65,7 +65,16 @@ def logout():
 	session.pop('email', None)
 	flash('You have logged out.')
 	return redirect(url_for('index'))
-	
+
+@app.route("/movies/<id>") #/movies/movie_id
+def movies(id=None):
+	#get the movie by movie_id
+	movie_object = model.session.query(model.Movie).filter_by(id=id).first()
+
+	return render_template("movie.html", movie = movie_object) # pass in movie_object to the movie.html template as a parameter called, "movie"
+
+
+
 if __name__ == "__main__":
 	app.run(debug = True)
 

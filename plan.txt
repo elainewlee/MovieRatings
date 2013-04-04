@@ -3,16 +3,29 @@ To do:
 - click on a user to view list of movies they've rated and the ratings -- done! judgment.py
 - create a new user w/ password
 	- validate form input: require at least email & password -- done
-	- check that email isn't already in database for an existing user
 - log in as a user (session) --done
 	- create login.html page (form)
 	- write login app def:
 		#from login page:
 		-if user exists, go to index
 		else if validation fails, go to login page
+- while logged in & viewing movie info, add a new rating of that movie by logged in user (or update existing rating by that user for that movie)
+	- view movie info page regardless of login status (pass movie ID as URL parameter)
+	- if a user is logged in:
+		- have a page to view all of logged in user's existing ratings (table of movies & ratings)
+		- when viewing movie page:
+			- if user has not rated that movie before:
+				- Add rating for unrated movie in question
+			- if user has already rated that movie before:
+				- view existing rating
+				- be able to re-rate/ update existing rating for movie in question
+- search all movies
 
 
-- while logged in & viewing movie info, add/edit movie logged in user's rating
+
+
+nice to have:
+- when creating a new user, check that user's email isn't already in database for an existing user
 
 
 ________________________________

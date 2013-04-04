@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h1>Movie</h1>
+
+This is the info for Movie ID {{ movie.id }} <br><br>
+
+<table>
+
+	<tr>
+		<td><strong>Movie ID</strong></td>
+		<td>{{ movie.id }}</td>
+	</tr>
+	<tr>
+		<td><strong>Movie name</strong></td>
+		<td>{{ movie.name }}</td>
+	</tr>
+	<tr>
+		<td><strong>Release Date</strong></td>
+		<td>{{ movie.released_at }}</td>
+	</tr>
+
+	<tr>
+		<td><strong>IMDB Link</strong></td>
+		<td>{{ movie.imdb_url }}</td>
+	</tr>
+
+</table>
+
+{% endblock %}
