@@ -20,11 +20,18 @@ This is the info for Movie ID {{ movie.id }} <br><br>
 		<td><strong>Release Date</strong></td>
 		<td>{{ movie.released_at }}</td>
 	</tr>
-
 	<tr>
 		<td><strong>IMDB Link</strong></td>
 		<td>{{ movie.imdb_url }}</td>
 	</tr>
+
+	<!-- Only show Rating Column if the logged in user has rated the movie -->
+	{% if session['user_id'] %}
+		<tr>
+			<td><strong>Rating</strong></td>
+			<td>{{ rated_movie.rating }}</td>
+		</tr>
+	{% endif %}
 
 </table>
 

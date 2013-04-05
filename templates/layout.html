@@ -2,21 +2,25 @@
 
 <body>
 
+<!-- login link -->
+{% if session['email'] %}
+<!--only show logout link, login status, and my_ratings if user is logged in.-->
+    <!-- logout link -->
+  <div align=right><a href="{{ url_for('logout') }}">Click here to logout.</a></div>
+
+  <!-- Sign-in status-->
+  <div align=right>You are currently signed in as: {{ session['email'] }}.</div>
+
+  <div align=right><a href="{{ url_for('my_ratings') }}">Your ratings</a></div>
+
+{% else %}
+  <div align=right><a href="{{ url_for('login') }}">Click here to login.</a></div>
+
+{% endif %}
+
 {% for message in get_flashed_messages() %}
   <div class=flash>{{ message }}</div>
 {% endfor %}
-
-<!-- login link -->
-<div align=right><a href="{{ url_for('login') }}">Click here to login.</a></div>
-
-<!-- logout link -->
-<div align=right><a href="{{ url_for('logout') }}">Click here to logout.</a></div>
-
-<!-- Sign-in status-->
-<div align=right>You are currently signed in as: {{ session['email'] }}.</div>
-
-<div align=right><a href="{{ url_for('my_ratings') }}">Click here for your ratings (only if you're logged in).</a></div>
-
 
 {% block body %}
 {% endblock %}

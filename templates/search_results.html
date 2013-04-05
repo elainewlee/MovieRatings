@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h1>Search Results</h1>
+
+
+<table>
+	<tr>
+		<td><strong>Movie id</strong></td>
+		<td><strong>Movie Name</strong></td>
+		{% if session['email'] %}
+			<td><strong>Your Rating</strong></td>
+		{% endif %}
+	</tr>
+
+
+	{% for row in movies %}
+		<tr>
+			<td>{{ row.id }}</td>
+			<td><a href={{ url_for('movies', id=row.id) }}>{{ row.name }}</a></td>
+			{% if session['email'] %}
+			<td>{{ ratings_dict[row.id] }}</td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+
+</table>
+
+{% endblock %}

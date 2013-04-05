@@ -2,9 +2,15 @@
 
 {% block body %}
 
+<h1>Search Movies</h1>
+<form name="movie_search" action="{{ url_for('movie_search_results') }}" method="post">
+	Movie Title: <input type="text" name="movie_title"><br />
+	<input type="submit" value="Search Movie Titles">
+</form>
+
 <h1>All users</h1>
 
-{% for user  in users %}
+{% for user in users %}
 	<h2><a href = "ratings/{{ user.id }}"> User {{ user.id }}</a>, age {{ user.age }} has {{ user.ratings|length }} ratings</h2>
 {% endfor %}
 

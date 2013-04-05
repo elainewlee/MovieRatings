@@ -6,7 +6,6 @@ import urllib # used for URL encoding
 app = Flask(__name__)
 app.secret_key = 'some_secret'
 
-
 @app.route("/")
 def index():
 	user_list = model.session.query(model.User).limit(5).all()
@@ -73,12 +72,39 @@ def movies(id=None):
 	#get the movie by movie_id
 	movie_object = model.session.query(model.Movie).filter_by(id=id).first() #.first returns the first matching instance. This is sufficient because we are only looking up one movie.
 
-	return render_template("movie.html", movie = movie_object) # pass in movie_object to the movie.html template as a parameter called, "movie"
+	rated_movie = "" # declare to this be empty to still be able to pass into render_template without an error
+
+	# if a user is logged in, run query to get user's rating for the movie in question.
+	if "user_id" in session:
+		rated_movie = model.session.query(model.Rating).filter(model.Rating.user_id==session['user_id'],model.Rating.movie_id==id).first()
+
+	return render_template("movie.html", movie = movie_object, rated_movie = rated_movie) # pass in movie_object to the movie.html template as a parameter called, "movie"
 
 @app.route("/my_ratings") 
 def my_ratings():
 	my_ratings = model.session.query(model.Rating).filter_by(user_id=session['user_id']).all() #contains all the rows of all ratings logged by  the user. The rows also contain movie id and info.
 	return render_template("my_ratings.html", my_rat = my_ratings) #pass in my_ratings to the my_ratings.html template
+
+@app.route("/movie_search_results", methods = ['POST'])
+def movie_search_results():	
+	form_movie = request.form['movie_title']
+	movies = model.session.query(model.Movie).filter(model.Movie.name.like("%"+ form_movie + "%")).all()
+	
+	ratings_dict = {} # declare this so can pass it into render_template even if doesn't exist
+
+	# grab ratings for movies in search results by logged in user if there is a user logged in
+	if "user_id" in session:
+		list_ids = []
+		for movie in movies:
+			list_ids.append(movie.id) # makes a list of movie ids from search results
+
+		# querying for ratings objects given the logged-in user's ID and the movies that will be displayed on this search results page
+		user_ratings = model.session.query(model.Rating).filter(model.Rating.user_id==session['user_id'],model.Rating.movie_id.in_(list_ids)).all()
+
+		for rating in user_ratings:
+			ratings_dict[rating.movie_id] = rating.rating # add key-values into dict with movie_id as key and rating as value
+
+	return render_template("search_results.html", movies = movies, ratings_dict = ratings_dict)
 
 if __name__ == "__main__":
 	app.run(debug = True)
