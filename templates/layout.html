@@ -15,6 +15,9 @@
 <!-- Sign-in status-->
 <div align=right>You are currently signed in as: {{ session['email'] }}.</div>
 
+<div align=right><a href="{{ url_for('my_ratings') }}">Click here for your ratings (only if you're logged in).</a></div>
+
+
 {% block body %}
 {% endblock %}
 

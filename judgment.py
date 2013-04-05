@@ -49,11 +49,12 @@ def validate_login():
 	form_email = urllib.quote(request.form['email'])
 	form_password = urllib.quote(request.form['password'])
 
-	#form_email and form_password must both exist and match in db for row to be an object
+	#form_email and form_password must both exist and match in db for row to be an object. Row is the entire row from the users table, including the id
 	row = model.session.query(model.User).filter_by(email=form_email, password=form_password).first()
 
 	if row: 		
 		session['email'] = request.form['email']
+		session['user_id'] = row.id
 		flash('Logged in as: ' + session['email'])
 		return redirect("/")		
 	else:
@@ -63,17 +64,21 @@ def validate_login():
 @app.route("/logout")
 def logout():
 	session.pop('email', None)
+	session.pop('user_id', None)
 	flash('You have logged out.')
 	return redirect(url_for('index'))
 
 @app.route("/movies/<id>") #/movies/movie_id
 def movies(id=None):
 	#get the movie by movie_id
-	movie_object = model.session.query(model.Movie).filter_by(id=id).first()
+	movie_object = model.session.query(model.Movie).filter_by(id=id).first() #.first returns the first matching instance. This is sufficient because we are only looking up one movie.
 
 	return render_template("movie.html", movie = movie_object) # pass in movie_object to the movie.html template as a parameter called, "movie"
 
-
+@app.route("/my_ratings") 
+def my_ratings():
+	my_ratings = model.session.query(model.Rating).filter_by(user_id=session['user_id']).all() #contains all the rows of all ratings logged by  the user. The rows also contain movie id and info.
+	return render_template("my_ratings.html", my_rat = my_ratings) #pass in my_ratings to the my_ratings.html template
 
 if __name__ == "__main__":
 	app.run(debug = True)

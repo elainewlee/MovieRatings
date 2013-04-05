@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h1>My Ratings</h1>
+
+<table>
+	<tr>
+		<td>Movie id</td>
+		<td>Rating</td>
+	</tr>
+
+	{% for row in my_rat %}
+		<tr>
+			<td>{{ row.movie_id }}</td>
+			<td>{{ row.rating }}</td>
+		</tr>
+	{% endfor %}
+
+</table>
+
+{% endblock %}
