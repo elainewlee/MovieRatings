@@ -74,11 +74,14 @@ def movies(id=None):
 
 	rated_movie = "" # declare to this be empty to still be able to pass into render_template without an error
 
-	# if a user is logged in, run query to get user's rating for the movie in question.
+	# if a user is logged in
 	if "user_id" in session:
-		rated_movie = model.session.query(model.Rating).filter(model.Rating.user_id==session['user_id'],model.Rating.movie_id==id).first()
+		rated_movie = model.session.query(model.Rating).filter(model.Rating.user_id==session['user_id'],model.Rating.movie_id==id).first() # query to get user's rating for the movie in question
 
-	return render_template("movie.html", movie = movie_object, rated_movie = rated_movie) # pass in movie_object to the movie.html template as a parameter called, "movie"
+		user_object = model.session.query(model.User).filter_by(id=session['user_id']).first() # get logged in user object (could do it through rated_movie but if user hasn't rated the movie before, rated_movie won't exist)
+		predicted_rating = user_object.predict_rating(movie_object)
+
+	return render_template("movie.html", movie = movie_object, rated_movie = rated_movie, predicted_rating = predicted_rating) # pass in movie_object to the movie.html template as a parameter called, "movie"
 
 @app.route("/my_ratings") 
 def my_ratings():

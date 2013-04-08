@@ -33,7 +33,7 @@ This is the info for Movie ID {{ movie.id }} <br><br>
 		{% if rated_movie.rating %}
 			<td>{{ rated_movie.rating }}</td>
 		{% else %}
-			<td>You haven't rated this movie before! Add a rating below.</td>
+			<td>You haven't rated this movie before! Add a rating below. We predict that you will rate this movie {{ predicted_rating }}.</td>
 		{% endif %}
 	</tr>
 	{% endif %}

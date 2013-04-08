@@ -16,7 +16,7 @@ To do:
 		- when viewing movie page:
 			- if user has already rated that movie before:
 				- view existing rating --done!
-				- be able to re-rate/ update existing rating for movie in question
+				- be able to re-rate/ update existing rating for movie in question --done!
 			- if user has not rated that movie before:
 				- Add rating for unrated movie in question --done!
 - search all movies --done! (with logged in user's ratings!) --done!
