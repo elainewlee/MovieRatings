@@ -106,6 +106,26 @@ def movie_search_results():
 
 	return render_template("search_results.html", movies = movies, ratings_dict = ratings_dict)
 
+@app.route("/add_rating", methods=["POST"])
+def add_rating():
+	form_rating = request.form['new_rating']
+	form_movie_id = request.form['movie_id']
+	new_rating = model.Rating(movie_id=form_movie_id, user_id=session['user_id'], rating=form_rating)
+
+	model.session.add(new_rating)
+	model.session.commit()
+	return redirect(url_for('movies', id=form_movie_id))
+
+@app.route("/update_rating", methods=["POST"])
+def update_rating():
+	form_rating = request.form['update_rating']
+	form_movie_id = request.form['movie_id']
+
+	current_rating = model.session.query(model.Rating).filter(model.Rating.user_id==session['user_id'],model.Rating.movie_id==form_movie_id).first()
+	current_rating.rating = form_rating
+	model.session.commit()
+	return redirect(url_for('movies', id=form_movie_id))
+
 if __name__ == "__main__":
 	app.run(debug = True)
 

@@ -18,7 +18,7 @@ To do:
 				- view existing rating --done!
 				- be able to re-rate/ update existing rating for movie in question
 			- if user has not rated that movie before:
-				- Add rating for unrated movie in question
+				- Add rating for unrated movie in question --done!
 - search all movies --done! (with logged in user's ratings!) --done!
 - change layout.html to show login link only if not already logged in and logout/my-ratings page link only if logged in --done!
 

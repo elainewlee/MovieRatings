@@ -26,13 +26,49 @@ This is the info for Movie ID {{ movie.id }} <br><br>
 	</tr>
 
 	<!-- Only show Rating Column if the logged in user has rated the movie -->
+	
 	{% if session['user_id'] %}
-		<tr>
-			<td><strong>Rating</strong></td>
+	<tr>
+		<td><strong>Rating</strong></td>
+		{% if rated_movie.rating %}
 			<td>{{ rated_movie.rating }}</td>
-		</tr>
+		{% else %}
+			<td>You haven't rated this movie before! Add a rating below.</td>
+		{% endif %}
+	</tr>
 	{% endif %}
 
 </table>
+
+{% if session['user_id'] and not rated_movie.rating %}
+<form name="add_rating" action="{{ url_for('add_rating') }}" method="post">
+	Your rating: 
+	<select name="new_rating">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3" selected>3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	</select>
+	<input type="hidden" value={{ movie.id }} name='movie_id'>
+	<input type="submit" value="Submit Rating">
+</form>
+{% endif %}
+
+
+{% if session['user_id'] and rated_movie.rating %}
+<form name="update_rating" action="{{ url_for('update_rating') }}" method="post">
+	Update your rating: 
+	<select name="update_rating">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	</select>
+	<input type="hidden" value={{ movie.id }} name='movie_id'>
+	<input type="submit" value="Submit New Rating">
+</form>
+{% endif %}
 
 {% endblock %}

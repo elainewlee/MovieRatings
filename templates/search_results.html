@@ -19,7 +19,7 @@
 		<tr>
 			<td>{{ row.id }}</td>
 			<td><a href={{ url_for('movies', id=row.id) }}>{{ row.name }}</a></td>
-			{% if session['email'] %}
+			{% if session['user_id'] %}
 			<td>{{ ratings_dict[row.id] }}</td>
 			{% endif %}
 		</tr>
